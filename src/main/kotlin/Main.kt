@@ -1,25 +1,30 @@
+const val MINUT = 60
+const val HOUR = MINUT*60
+const val DAY = HOUR*24
+const val TWO_DAY = DAY*2
+const val THRE_DAY =DAY*3
 
 fun main(args: Array<String>) {
-    val time = 10
+    val time = 60
     val textAgo= agoToText(time)
     println("был(а) online $textAgo")
 }
 
-fun agoToText(time:Int,minut:Int=60,hour:Int=minut*minut,day:Int=hour*24,twoDays:Int=day*2,threeDays:Int=day*3):String{
-    return when{
-        time<minut-> "только что"
-        time<hour && time>=minut -> {
-           val minutAgo = time/minut
+fun agoToText(time:Int):String{
+    return when(time){
+        in 0 .. MINUT-> "только что"
+        in MINUT..HOUR -> {
+           val minutAgo = time/MINUT
            val minutToText = enddingTime(minutAgo,false)
            "$minutAgo $minutToText назад"
         }
-        time<day && time>=hour -> {
-            val hourAgo = time/hour
+        in HOUR .. DAY -> {
+            val hourAgo = time/HOUR
             val hourToText = enddingTime(hourAgo,true)
             "$hourAgo $hourToText назад"
         }
-        time<twoDays && time>=day -> "сегодня"
-        time<threeDays && time>=twoDays ->"вчера"
+        in DAY .. TWO_DAY -> "сегодня"
+        in TWO_DAY..THRE_DAY ->"вчера"
         else -> "давно"
     }
 }
